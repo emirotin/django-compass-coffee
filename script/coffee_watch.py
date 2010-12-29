@@ -1,12 +1,5 @@
 from directory_watcher import DirectoryWatcher
-import os
-import time
-from subprocess import call, STDOUT
-
-pjoin = os.path.join
-relpath = os.path.relpath
-realpath = os.path.realpath
-dirname = os.path.dirname
+from utils import compile_coffee, realpath
 
 class CoffeeCompiler(object):
     def __init__(self, source_dir, dest_dir):
@@ -14,15 +7,7 @@ class CoffeeCompiler(object):
         self.dest_dir = realpath(dest_dir)
 
     def process(self, source_file):
-        dest_file = pjoin(self.dest_dir, relpath(source_file, self.source_dir))
-        dest_file = dirname(dest_file)
-        try:
-            os.mkdir(dest_file)
-        except OSError:
-            pass
-        print 'Recompiling {0} to {1}'.format(source_file, dest_file)        
-        retcode = call(["coffee",  "-o", dest_file, "-c", source_file], stderr=STDOUT)        
-        print '   ...done. Return code: {0}'.format(retcode)
+        compile_coffee(source_file, self.source_dir, self.dest_dir)
 
  
 if __name__ == "__main__":
