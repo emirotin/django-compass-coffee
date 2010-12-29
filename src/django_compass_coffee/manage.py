@@ -8,4 +8,9 @@ except ImportError:
     sys.exit(1)
 
 if __name__ == "__main__":
+    import signal
+    def terminate(*args):
+        raise KeyboardInterrupt
+    signal.signal(signal.SIGINT, terminate)
+    
     execute_manager(settings)
