@@ -1,0 +1,27 @@
+# project specific
+env
+
+# files built from assets
+src/django_compass_coffee/media/js/*
+src/django_compass_coffee/media/css/*
+src/django_compass_coffee/media/img/*
+src/django_compass_coffee/templates/*
+
+
+# python files
+*.pyc
+*.pyo
+
+# temp files
+*.*~
+
+# OS generated
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# IDE files
+.project
+.pydevproject
+
