@@ -19,6 +19,15 @@ import signal
 import sys
 import types
 import time
+from utils import clear_folder
+
+for folder in [
+   '../src/django_compass_coffee/media/js',
+   '../src/django_compass_coffee/media/css',
+   '../src/django_compass_coffee/media/img',
+   '../src/django_compass_coffee/templates'
+]:
+    clear_folder(folder)
 
 processes = []
 for c in commands:
