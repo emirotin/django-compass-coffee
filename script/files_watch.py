@@ -1,7 +1,7 @@
 from directory_watcher import DirectoryWatcher
 import os
 import time
-from subprocess import call, STDOUT
+from shutil import copyfile
 
 pjoin = os.path.join
 splitext = os.path.splitext
@@ -16,8 +16,8 @@ class FileCopier(object):
     def process(self, source_file):
         dest_file = pjoin(self.dest_dir, relpath(source_file, self.source_dir))
         print 'Copying {0} to {1}'.format(source_file, dest_file)        
-        retcode = call(["cp", source_file, dest_file], stderr=STDOUT)        
-        print '   ...done. Return code: {0}'.format(retcode)
+        copyfile(source_file, dest_file)        
+        print '   ...done.'
 
  
 if __name__ == "__main__":
