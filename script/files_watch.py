@@ -36,6 +36,9 @@ if __name__ == "__main__":
         re_exts = re.compile('|'.join('.*\.' + s + '$' for s in exts))
     else:
         re_exts = None
+
+    print 'Files watcher is running'
+
     processor = FileCopier(sys.argv[1], sys.argv[2])
     watcher = DirectoryWatcher(sys.argv[1], re_exts)
     watcher.watch(processor.process)

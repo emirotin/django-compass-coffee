@@ -16,13 +16,21 @@ class HamlCompiler(object):
     def process(self, source_file):
         dest_file = pjoin(self.dest_dir, relpath(source_file, self.source_dir))
         dest_file = splitext(dest_file)[0] + '.html'
-        print 'Recompiling {0} to {1}'.format(source_file, dest_file)        
+        print 'Recompiling {0} to {1}'.format(source_file, dest_file)
         retcode = call(["ruby", "haml.rb", source_file, dest_file], stderr=STDOUT)        
         print '   ...done. Return code: {0}'.format(retcode)
  
 if __name__ == "__main__":
     import re
     import sys
+    
+    import signal
+    def terminate(*args):
+        raise KeyboardInterrupt
+    signal.signal(signal.SIGINT, terminate)
+    
+    print 'HAML watcher is running'
+    
     re_haml = re.compile('.*\.haml$')
     processor = HamlCompiler(sys.argv[1], sys.argv[2])
     watcher = DirectoryWatcher(sys.argv[1], re_haml)

@@ -28,6 +28,9 @@ class CoffeeCompiler(object):
 if __name__ == "__main__":
     import re
     import sys
+
+    print 'Coffee watcher is running'
+
     re_coffee = re.compile('.*\.coffee$')
     processor = CoffeeCompiler(sys.argv[1], sys.argv[2])
     watcher = DirectoryWatcher(sys.argv[1], re_coffee)
