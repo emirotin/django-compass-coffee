@@ -16,12 +16,9 @@ class HamlCompiler(object):
     def process(self, source_file):
         dest_file = pjoin(self.dest_dir, relpath(source_file, self.source_dir))
         dest_file = splitext(dest_file)[0] + '.html'
-        print 'Recompiling {0} to {1}'.format(source_file, dest_file)
-        
-        retcode = call(["ruby", "haml.rb", source_file, dest_file], stderr=STDOUT)
-        
+        print 'Recompiling {0} to {1}'.format(source_file, dest_file)        
+        retcode = call(["ruby", "haml.rb", source_file, dest_file], stderr=STDOUT)        
         print '   ...done. Return code: {0}'.format(retcode)
-
  
 if __name__ == "__main__":
     import re

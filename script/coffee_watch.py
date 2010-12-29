@@ -20,17 +20,15 @@ class CoffeeCompiler(object):
             os.mkdir(dest_file)
         except OSError:
             pass
-        print 'Recompiling {0} to {1}'.format(source_file, dest_file)
-        
-        retcode = call(["coffee",  "-o", dest_file, "-c", source_file], stderr=STDOUT)
-        
+        print 'Recompiling {0} to {1}'.format(source_file, dest_file)        
+        retcode = call(["coffee",  "-o", dest_file, "-c", source_file], stderr=STDOUT)        
         print '   ...done. Return code: {0}'.format(retcode)
 
  
 if __name__ == "__main__":
     import re
     import sys
-    re_haml = re.compile('.*\.coffee$')
+    re_coffee = re.compile('.*\.coffee$')
     processor = CoffeeCompiler(sys.argv[1], sys.argv[2])
-    watcher = DirectoryWatcher(sys.argv[1], re_haml)
+    watcher = DirectoryWatcher(sys.argv[1], re_coffee)
     watcher.watch(processor.process)
