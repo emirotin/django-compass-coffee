@@ -12,19 +12,20 @@ os_walk = os.walk
 pjoin = os.path.join
 realpath = os.path.realpath
 os_stat = os.stat
+
+def enum_files(start_dir, mask=None):
+    test = (lambda x : True) if mask is None else mask.match
+    for (path, dirs, files) in os_walk(start_dir):
+        for file in files:
+            if not test(file):
+                continue
+            yield pjoin(path, file)
     
 class DirectoryWatcher(object):
     
     def __init__(self, start_dir, mask=None):
         self.start_dir = realpath(start_dir)
         self.mask = mask
-
-    def __enum_files(self):
-        for (path, dirs, files) in os_walk(self.start_dir):
-            for file in files:
-                if self.mask is not None and not self.mask.match(file):
-                    continue
-                yield pjoin(path, file)
                 
     @staticmethod
     def __process_file(job_queue, process):
@@ -46,7 +47,7 @@ class DirectoryWatcher(object):
         try:
             while True:
                 workers = []
-                for file_name in self.__enum_files():
+                for file_name in enum_files(self.start_dir, self.mask):
                     try:
                         mtime = os_stat(file_name).st_mtime
                     except OSError:
