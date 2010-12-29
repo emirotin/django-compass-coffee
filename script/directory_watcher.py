@@ -10,12 +10,13 @@ from signal import signal, SIGINT, SIG_IGN
 
 os_walk = os.walk
 pjoin = os.path.join
+realpath = os.path.realpath
 os_stat = os.stat
     
 class DirectoryWatcher(object):
     
     def __init__(self, start_dir, mask=None):
-        self.start_dir = start_dir
+        self.start_dir = realpath(start_dir)
         self.mask = mask
 
     def __enum_files(self):
