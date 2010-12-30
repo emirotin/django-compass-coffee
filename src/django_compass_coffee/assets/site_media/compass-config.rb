@@ -3,5 +3,5 @@
 # http_path = "/"
 css_dir = "../../site_media/css"
 sass_dir = "css"
-images_dir = "site_media/img"
+images_dir = "../site_media/img"
 relative_assets = false
