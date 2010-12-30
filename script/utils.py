@@ -26,6 +26,11 @@ def clear_folder(folder):
             
 def copy_file(file, source_dir, dest_dir):
     dest_file = pjoin(dest_dir, relpath(file, source_dir))
+    dest_dir = dirname(dest_file)
+    try:
+        os.makedirs(dest_dir)
+    except OSError:
+        pass
     copyfile(file, dest_file)        
     return dest_file
 
@@ -36,7 +41,7 @@ def compile_coffee(source_file, source_dir, dest_dir):
     dest_file = pjoin(dest_dir, relpath(source_file, source_dir))
     dest_file = dirname(dest_file)
     try:
-        os.mkdir(dest_file)
+        os.makedirs(dest_file)
     except OSError:
         pass
     print 'Recompiling {0} to {1}'.format(source_file, dest_file)        
