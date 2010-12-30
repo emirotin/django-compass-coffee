@@ -1,0 +1,36 @@
+@import blueprint/reset
+
+@import partials/base
+
+@import blueprint
+@import blueprint/scaffolding
+
++blueprint-scaffolding("body")
+
+body
+  +blueprint-typography(true)
+  +blueprint-utilities
+  +blueprint-debug("../img/grid.png")
+  +blueprint-interaction
+  padding-top: 30px
+
+form
+  +blueprint-form
+
+body
+  #container
+    +container
+  #header, #footer
+    +column($blueprint-grid-columns)
+  #footer
+    padding-top: 10px
+  #sidebar
+    $sidebar-columns: floor($blueprint-grid-columns / 3)
+    +column($sidebar-columns)
+  #content
+    $content-columns: ceil(2 * $blueprint-grid-columns / 3)
+    +column($content-columns, true)
+    ul
+      list-style: none
+    #vote
+      width: 100px

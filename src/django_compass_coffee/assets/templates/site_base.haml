@@ -1,0 +1,56 @@
+!!! strict
+
+%head
+  %title Django + HAML + SCSS + CoffeeScript + jQuery &mdash; Poll app
+  
+  %meta(http-equiv="Content-Type" content="text/html;charset=UTF-8")
+    
+  %link(href="../media/css/screen.css" rel="stylesheet" type="text/css" media="screen, projection")
+  %link(href="../media/css/print.css" rel="stylesheet" type="text/css" media="print")
+  /[if lte IE 8}]%link(href="../media/css/ie.css" rel="stylesheet" type="text/css" media="screen, projection")
+    
+%body
+  #container.showgrid
+  
+    #header
+      %h1 Polls Demo  
+
+    #sidebar
+      %h3 Recent Polls
+      %ul
+        %li 
+          %a(href="#") poll2
+        %li 
+          %a(href="#") poll3
+        %li 
+          %a(href="#") poll4
+        %li 
+          %a(href="#") poll5
+    
+    #content
+      %h2 Poll Question
+      
+      %form(action="." method="post")
+        %ul
+          %li
+            %p
+              %input(type="radio" name="answer" id="o1")
+              %label(for="o1") Option 1
+          %li
+            %p
+              %input(type="radio" name="answer" id="o2")
+              %label(for="o2") Option 2
+          %li
+            %p
+              %input(type="radio" name="answer" id="o3")
+              %label(for="o3") Option 3
+          %li
+            %p
+              %input(type="radio" name="answer" id="o4")
+              %label(for="o4") Option 4
+  
+        %input#vote(type="submit" value="Vote")       
+       
+    #footer
+      %p &copy; Eugene Mirotin
+
