@@ -1,14 +1,14 @@
 commands = [
-    "python ./coffee_watch.py ../src/django_compass_coffee/assets/media/js ../src/django_compass_coffee/media/js", # compile coffee scripts
-    "python ./files_watch.py ../src/django_compass_coffee/assets/media/js ../src/django_compass_coffee/media/js js", # copy js libraries
+    "python ./coffee_watch.py ../src/django_compass_coffee/assets/site_media/js ../src/django_compass_coffee/site_media/js", # compile coffee scripts
+    "python ./files_watch.py ../src/django_compass_coffee/assets/site_media/js ../src/django_compass_coffee/site_media/js js", # copy js libraries
 
     "python ./haml_watch.py ../src/django_compass_coffee/assets/templates ../src/django_compass_coffee/templates", # compile haml templates
     "python ./files_watch.py ../src/django_compass_coffee/assets/templates ../src/django_compass_coffee/templates html", # copy regular html
 
-    ("compass watch -c compass-config.rb", "../src/django_compass_coffee/assets/media/"), # run compass in watch mode to build sass
-    "python ./files_watch.py ../src/django_compass_coffee/assets/media/css ../src/django_compass_coffee/media/css css", # copy plain css
+    ("compass watch -c compass-config.rb", "../src/django_compass_coffee/assets/site_media/"), # run compass in watch mode to build sass
+    "python ./files_watch.py ../src/django_compass_coffee/assets/site_media/css ../src/django_compass_coffee/site_media/css css", # copy plain css
 
-    "python ./files_watch.py ../src/django_compass_coffee/assets/media/img ../src/django_compass_coffee/media/img \"gif|jpg|jpeg|png\"", # copy images
+    "python ./files_watch.py ../src/django_compass_coffee/assets/site_media/img ../src/django_compass_coffee/site_media/img \"gif|jpg|jpeg|png\"", # copy images
     
 #    ("python manage.py runserver", "../src/django_compass_coffee") # run django server
 ]
@@ -22,9 +22,9 @@ import time
 from utils import clear_folder
 
 for folder in [
-   '../src/django_compass_coffee/media/js',
-   '../src/django_compass_coffee/media/css',
-   '../src/django_compass_coffee/media/img',
+   '../src/django_compass_coffee/site_media/js',
+   '../src/django_compass_coffee/site_media/css',
+   '../src/django_compass_coffee/site_media/img',
    '../src/django_compass_coffee/templates'
 ]:
     clear_folder(folder)

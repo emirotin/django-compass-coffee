@@ -2,11 +2,11 @@
 env
 
 # files built from assets
-src/django_compass_coffee/media/js/*
-src/django_compass_coffee/media/css/*
-src/django_compass_coffee/media/img/*
+src/django_compass_coffee/site_media/js/*
+src/django_compass_coffee/site_media/css/*
+src/django_compass_coffee/site_media/img/*
 src/django_compass_coffee/templates/*
-src/django_compass_coffee/assets/media/.sass-cache
+src/django_compass_coffee/assets/site_media/.sass-cache
 
 
 # python files
@@ -15,6 +15,7 @@ src/django_compass_coffee/assets/media/.sass-cache
 
 # temp files
 *.*~
+*.*#
 
 # OS generated
 .DS_Store?
