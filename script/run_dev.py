@@ -10,7 +10,7 @@ commands = [
 
     "python ./files_watch.py ../src/django_compass_coffee/assets/site_media/img ../src/django_compass_coffee/site_media/img \"gif|jpg|jpeg|png\"", # copy images
     
-#    ("python manage.py runserver", "../src/django_compass_coffee") # run django server
+    ("python manage.py runserver", "../src/django_compass_coffee") # run django server
 ]
 
 from subprocess import STDOUT, Popen
@@ -39,6 +39,10 @@ for c in commands:
 
 def terminate(*args):
     for p in processes:
+        pp = psutil.Process(p.pid)
+        for child in pp.get_children():
+            child.send_signal(signal.SIGINT)
+            child.wait()
         p.send_signal(signal.SIGINT)
         p.wait()
     sys.exit(0)
