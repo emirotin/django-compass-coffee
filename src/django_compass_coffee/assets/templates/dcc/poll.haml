@@ -10,6 +10,7 @@
 
 {% block content %}
 %form(action="{% url dcc.views.poll_vote poll.pk %}" method="post")
+  {% csrf_token %}
   %ul
     {% for answer in poll.pollanswer_set.all %}
     %li
