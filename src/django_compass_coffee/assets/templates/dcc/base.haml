@@ -1,7 +1,9 @@
 {% extends "site_base.html" %}
 
 {% block header %}
-%h1 Polls Demo
+%h1
+  %a(href="/polls" style="text-decoration:none")
+    Polls Demo
 {% endblock %}
 
 {% block sidebar %}
@@ -11,7 +13,7 @@
 {% for poll in recent_polls %}
 
 %li 
-  %a(href="#") {{ poll.question|truncatewords:"5"}}
+  %a(href="{% url dcc.views.poll_view poll.pk %}") {{ poll.question|truncatewords:"5"}}
 
 {% empty %}
 

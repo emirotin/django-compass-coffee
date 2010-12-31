@@ -1,5 +1,11 @@
 {% extends "dcc/base.html" %}
 
+{% block extrajs %}
+:coffee
+  $('input[type="radio"]').click ->
+    $('#vote').removeAttr "disabled"
+{% endblock %}
+
 {% block contenttitle %}{{ poll.question }}{% endblock %}
 
 {% block content %}
@@ -11,5 +17,5 @@
         %input(type="radio" name="answer" id="answer_{{ answer.pk }}" value="{{ answer.pk }}")
         %label(for="answer_{{ answer.pk }}") {{ answer.answer }}
     {% endfor %}
-  %input#vote(type="submit" value="Vote")       
+  %input#vote(type="submit" value="Vote" disabled)       
 {% endblock %}
