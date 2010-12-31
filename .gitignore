@@ -1,5 +1,6 @@
 # project specific
 env
+sqlite.db
 
 # files built from assets
 src/django_compass_coffee/site_media/js/*

@@ -39,9 +39,9 @@ def extensions_re(exts):
 
 def compile_coffee(source_file, source_dir, dest_dir):
     dest_file = pjoin(dest_dir, relpath(source_file, source_dir))
-    dest_dir = dirname(dest_file)
+    dest_file = dirname(dest_file)
     try:
-        os.makedirs(dest_dir)
+        os.makedirs(dest_file)
     except OSError:
         pass
     print 'Compiling {0} to {1}'.format(source_file, dest_file)        

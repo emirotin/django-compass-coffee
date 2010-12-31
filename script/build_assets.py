@@ -16,6 +16,12 @@ re_coffee = re.compile('.*\.coffee$')
 print 'Compiling coffee files to {0}'.format(dest_dir) 
 for file in enum_files(source_dir, re_coffee):
     compile_coffee(file, source_dir, dest_dir)  
+
+# check these files with jslint
+for file in enum_files('../src/django_compass_coffee/site_media/js'):
+    print "Running {0} through Javascript Lint".format(file)
+    call(shlex.split("../tools/jsl -conf ../tools/jsl.conf -nologo -process {0}".format(file)), stderr=STDOUT)
+
     
 # build scss / sass with compass
 print 'Compiling stylesheets with compass'
@@ -35,10 +41,6 @@ for folder, exts in (
     for file in enum_files(source_dir, re_exts):
         print '    Copied {0}'.format(copy_file(file, source_dir, dest_dir))
 
-# check js files with jslint
-for file in enum_files('../src/django_compass_coffee/site_media/js'):
-    print "Running {0} through Javascript Lint".format(file)
-    call(shlex.split("../tools/jsl -conf ../tools/jsl.conf -nologo -process {0}".format(file)), stderr=STDOUT)
         
 # build haml files
 re_haml = re.compile('.*\.haml')
