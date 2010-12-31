@@ -1,0 +1,22 @@
+{% extends "site_base.html" %}
+
+{% block header %}
+%h1 Polls Demo
+{% endblock %}
+
+{% block sidebar %}
+%h3 Recent Polls
+%ul
+
+{% for poll in recent_polls %}
+
+%li 
+  %a(href="#") {{ poll.question|truncatewords:"5"}}
+
+{% empty %}
+
+%li No polls yet
+
+{% endfor %}
+
+{% endblock %}

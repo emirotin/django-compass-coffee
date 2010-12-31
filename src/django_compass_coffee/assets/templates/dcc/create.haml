@@ -1,0 +1,44 @@
+{% extends "dcc/base.html" %}
+
+{% block extrajs %}
+
+:coffee
+  total_answers = 3
+  add_answer = ->
+    if this.name != 'answer_' + total_answers
+      return
+    total_answers++;
+    a = $('<input type="text" />')
+    a.attr 
+      name: "answer_" + total_answers
+    $('#answers').append $('<br />')
+    $('#answers').append a
+    a.focus add_answer
+    $('#total_answers').attr value total_answers
+  $('#answers > input').focus add_answer
+
+{% endblock %}
+
+{% block contenttitle %}Create a poll{% endblock %}
+
+{% block content %}
+%form(action="." method="post")
+  {% csrf_token %}
+
+  %p
+    %label(for="question")Poll text:
+    %br
+    %textarea(name="question")
+  
+  %h4 Answers
+  %p#answers
+    %input#total_answers(type="hidden" name="total_answers" value="3")
+    %input(type="text" name="answer_1")
+    %br
+    %input(type="text" name="answer_2")
+    %br
+    %input(type="text" name="answer_3")
+
+  %p
+    %input(type="submit" value="Create")       
+{% endblock %}

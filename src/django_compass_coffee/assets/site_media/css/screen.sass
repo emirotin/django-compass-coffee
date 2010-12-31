@@ -23,13 +23,11 @@ body
   #header, #footer
     +column($blueprint-grid-columns)
   #footer
-    padding-top: 10px
+    padding-top: 20px
   #sidebar
-    $sidebar-columns: floor($blueprint-grid-columns / 3)
-    +column($sidebar-columns)
+    +column(8)
   #content
-    $content-columns: ceil(2 * $blueprint-grid-columns / 3)
-    +column($content-columns, true)
+    +column(16, true)
     ul
       list-style: none
     #vote

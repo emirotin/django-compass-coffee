@@ -1,1 +1,18 @@
-{% extends "site_base.html" %}
+{% extends "dcc/base.html" %}
+
+{% block extracss %}
+%style(type="text/css")
+  :sass
+    #create
+      border:
+        width: 1px
+        style: solid
+        color: #333
+      padding: 5px 20px
+{% endblock %}
+
+{% block contenttitle %}Sample Poll Application{% endblock %}
+
+{% block content %}
+%a#create(href="{% url dcc.views.poll_create %}") Create new poll
+{% endblock %}

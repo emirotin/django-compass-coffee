@@ -1,0 +1,32 @@
+{% extends "dcc/base.html" %}
+
+{% block extracss %}
+%link(rel="stylesheet" type="text/css" href="/site_media/css/results.css")
+{% endblock %}
+
+{% block extrajs %}
+%script(type="text/javascript" src="/site_media/js/results.js")
+{% endblock %}
+
+{% block contenttitle %}Poll Results{% endblock %}
+
+{% block content %}
+%p
+  %strong
+    {{ poll.question }}
+    
+#results
+  {% for r in results %}
+  .res
+    %span.answer
+      {{ r.0 }}
+    .gauge(_width="{{ r.2 }}")
+    %span.votes
+      {{ r.2|floatformat:2 }}% ({{ r.1 }})
+  {% endfor %}  
+%p
+  Total votes:
+  %strong
+    {{ total }}
+       
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "dcc/base.html" %}
+
+{% block contenttitle %}{{ poll.question }}{% endblock %}
+
+{% block content %}
+%form(action="{% url dcc.views.poll_vote poll.pk %}" method="post")
+  %ul
+    {% for answer in poll.pollanswer_set.all %}
+    %li
+      %p
+        %input(type="radio" name="answer" id="answer_{{ answer.pk }}" value="{{ answer.pk }}")
+        %label(for="answer_{{ answer.pk }}") {{ answer.answer }}
+    {% endfor %}
+  %input#vote(type="submit" value="Vote")       
+{% endblock %}
