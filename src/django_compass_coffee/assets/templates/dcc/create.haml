@@ -5,18 +5,16 @@
 {% block extrajs %}
 
 :coffee
-  h = Haml.render
   $ ->
     total_answers = 3
+    $("#new-answer-tmpl").template("new-answer-tmpl")
     add_answer = ->
       if this.name != 'answer_' + total_answers
         return
-      total_answers++;
-      $('#answers').append h '%br'
-      a = $ h '%input(type="text")'
-      $('#answers').append a 
-      a.attr "name", "answer_" + total_answers
-      a.focus add_answer
+      total_answers++
+      name = "answer_" + total_answers
+      $.tmpl("new-answer-tmpl", {"name": name}).appendTo("#answers")
+      $('#' + name).focus add_answer
       $('#total_answers').attr "value", total_answers
     $('#answers > input').focus add_answer
 
@@ -25,6 +23,10 @@
 {% block contenttitle %}Create a poll{% endblock %}
 
 {% block content %}
+%script#new-answer-tmpl(type="text/x-jquery-tmpl")
+  %br
+  %input(type="text" name="${name}" id="${name}")
+
 %form(action="." method="post")
   {% csrf_token %}
 
