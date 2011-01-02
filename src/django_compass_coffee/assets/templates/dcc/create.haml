@@ -5,19 +5,20 @@
 {% block extrajs %}
 
 :coffee
-  total_answers = 3
-  add_answer = ->
-    if this.name != 'answer_' + total_answers
-      return
-    total_answers++;
-    a = $('<input type="text" />')
-    a.attr 
-      name: "answer_" + total_answers
-    $('#answers').append Haml.render '%br'
-    $('#answers').append a
-    a.focus add_answer
-    $('#total_answers').attr "value", total_answers
-  $('#answers > input').focus add_answer
+  h = Haml.render
+  $ ->
+    total_answers = 3
+    add_answer = ->
+      if this.name != 'answer_' + total_answers
+        return
+      total_answers++;
+      $('#answers').append h '%br'
+      a = $ h '%input(type="text")'
+      $('#answers').append a 
+      a.attr "name", "answer_" + total_answers
+      a.focus add_answer
+      $('#total_answers').attr "value", total_answers
+    $('#answers > input').focus add_answer
 
 {% endblock %}
 
