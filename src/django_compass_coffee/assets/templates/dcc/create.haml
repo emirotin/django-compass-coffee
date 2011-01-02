@@ -13,7 +13,7 @@
         return
       total_answers++
       name = "answer_" + total_answers
-      $.tmpl("new-answer-tmpl", {"name": name}).appendTo("#answers")
+      $("#answers").append $.tmpl("new-answer-tmpl", {"name": name})
       $('#' + name).focus add_answer
       $('#total_answers').attr "value", total_answers
     $('#answers > input').focus add_answer
