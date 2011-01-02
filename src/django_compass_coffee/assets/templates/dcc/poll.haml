@@ -1,5 +1,7 @@
 {% extends "dcc/base.html" %}
 
+{% block pagetitle %}Poll \#{{ poll.pk }} / {{ block.super }}{% endblock %}
+
 {% block extrajs %}
 :coffee
   $('input[type="radio"]').click ->

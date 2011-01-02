@@ -1,5 +1,7 @@
 {% extends "dcc/base.html" %}
 
+{% block pagetitle %}Poll \#{{ poll.pk }} &mdash; Results / {{ block.super }}{% endblock %}
+
 {% block extracss %}
 %link(rel="stylesheet" type="text/css" href="/site_media/css/results.css")
 {% endblock %}
