@@ -13,7 +13,7 @@
     a = $('<input type="text" />')
     a.attr 
       name: "answer_" + total_answers
-    $('#answers').append $('<br />')
+    $('#answers').append Haml.render '%br'
     $('#answers').append a
     a.focus add_answer
     $('#total_answers').attr "value", total_answers
