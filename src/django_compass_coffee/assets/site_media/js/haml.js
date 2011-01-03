@@ -343,7 +343,6 @@ var Haml;
           "\n</style>\n");
       }
     }
-
   ];
 
   function compile(lines) {

@@ -104,7 +104,11 @@ INSTALLED_APPS = (
 
 COMPRESS = True
 COMPRESS_OUTPUT_DIR = "CACHE"
-COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter']
-COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.JSMinFilter']
 COMPRESS_PARSER = 'compressor.parser.LxmlParser'
 COMPRESS_ROOT = os.path.join(SITE_ROOT, "site_media")
+
+TOOLS_DIR = os.path.realpath(os.path.join(SITE_ROOT, '..', '..', 'tools'))
+COMPRESS_CSS_FILTERS = ['compressor.filters.yui.YUICSSFilter']
+COMPRESS_YUI_BINARY = 'java -jar ' + os.path.join(TOOLS_DIR, 'yuicompressor.jar')
+COMPRESS_JS_FILTERS = ['compressor.filters.closure.ClosureCompilerFilter']
+COMPRESS_CLOSURE_COMPILER_BINARY = 'java -jar ' + os.path.join(TOOLS_DIR, 'closure-compiler.jar')

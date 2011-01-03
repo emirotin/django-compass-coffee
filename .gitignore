@@ -8,7 +8,7 @@ src/django_compass_coffee/site_media/css/*
 src/django_compass_coffee/site_media/img/*
 src/django_compass_coffee/templates/*
 src/django_compass_coffee/assets/site_media/.sass-cache
-
+src/django_compass_coffee/site_media/CACHE/*
 
 # python files
 *.pyc
