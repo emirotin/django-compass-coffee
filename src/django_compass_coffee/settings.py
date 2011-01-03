@@ -51,9 +51,8 @@ USE_I18N = True
 USE_L10N = True
 
 if DEBUG:
-    MEDIA_ROOT = 'site_media/'
-
-MEDIA_URL = ''
+    MEDIA_ROOT = os.path.join(SITE_ROOT, 'site_media')
+    MEDIA_URL = '/site_media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -99,5 +98,13 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'compressor',
     'dcc'
 )
+
+COMPRESS = True
+COMPRESS_OUTPUT_DIR = "CACHE"
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter']
+COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.JSMinFilter']
+COMPRESS_PARSER = 'compressor.parser.LxmlParser'
+COMPRESS_ROOT = os.path.join(SITE_ROOT, "site_media")

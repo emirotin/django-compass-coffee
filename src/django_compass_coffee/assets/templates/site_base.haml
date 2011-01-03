@@ -1,15 +1,20 @@
 !!! strict
 
+{% load compress %}
+
 %head
   %title {% block pagetitle %}{% endblock %}
   
   %meta(http-equiv="Content-Type" content="text/html;charset=UTF-8")
-  
+
+  {% compress css %}  
   %link(href="/site_media/css/screen.css" rel="stylesheet" type="text/css" media="screen, projection")
   %link(href="/site_media/css/print.css" rel="stylesheet" type="text/css" media="print")
+  {% endcompress %}  
   /[if lte IE 8}]
+    {% compress css %}  
     %link(href="/site_media/css/ie.css" rel="stylesheet" type="text/css" media="screen, projection")
-    
+    {% endcompress %}  
   {% block extracss %}{% endblock %}
     
 %body
@@ -24,12 +29,15 @@
     #content
       %h2 {% block contenttitle %}{% endblock %}
       {% block content %}{% endblock %}
-      
        
     #footer
       %p &copy; Eugene Mirotin
 
   /JS files
+  {% compress js %}  
   %script(type="text/javascript" src="/site_media/js/jquery-1.4.4.js")
   %script(type="text/javascript" src="/site_media/js/haml.js")
+  {% endcompress %}  
+  {% compress js %}  
   {% block extrajs %}{% endblock %}
+  {% endcompress %}  
