@@ -1,17 +1,10 @@
-# The script to monitor directory changes and execute specific files on changed files
-# Tasks are executed one by one, on keyboard interrupt the last task is waited to finish (not terminated)
-# written by Eugene Mirotin, December 2010
-# heavily based on http://www.bryceboe.com/2010/08/26/python-multiprocessing-and-keyboardinterrupt/
-
-import sys
+from watchdog.events import PatternMatchingEventHandler
 import os
-import multiprocessing, Queue
-from signal import signal, SIGINT, SIG_IGN
-
-os_walk = os.walk
 pjoin = os.path.join
+splitext = os.path.splitext
+relpath = os.path.relpath
 realpath = os.path.realpath
-os_stat = os.stat
+dirname = os.path.dirname
 
 def enum_files(start_dir, mask=None):
     test = (lambda x : True) if mask is None else mask.match
@@ -20,55 +13,57 @@ def enum_files(start_dir, mask=None):
             if not test(file):
                 continue
             yield pjoin(path, file)
+
+
+class MirrorDirectoriesHandler(PatternMatchingEventHandler):
+    def __init__(self, source_dir, dest_dir, patterns=None, ignore_patterns=None):
+        self.source_dir = realpath(source_dir)
+        self.dest_dir = realpath(dest_dir)
+        super(MirrorDirectoriesHandler, self).__init__(patterns, ignore_patterns,
+                 ignore_directories=True, case_sensitive=False)
+        
+    def handle_file(self, source_path, dest_path):
+        """Define this method in derived classes"""
+        raise NotImplemented
+        
+    def _wrap_handle_file(self, path):
+        dest_path = self.mirror_path(path)
+#        if (os.path.exists(dest_path) and 
+#            os.path.isfile(dest_path) and 
+#            os.stat(dest_path).st_mtime >= os.stat(path).st_mtime):
+#            return
+        self.handle_file(path, dest_path)
     
-class DirectoryWatcher(object):
+    def mirror_path(self, path):
+        return pjoin(self.dest_dir, relpath(path, self.source_dir))
     
-    def __init__(self, start_dir, mask=None):
-        self.start_dir = realpath(start_dir)
-        self.mask = mask
-                
-    @staticmethod
-    def __process_file(job_queue, process):
-        signal(SIGINT, SIG_IGN)
-        if job_queue.empty():
-            return
+    def create_dir(self, path):
+        dest_dir = dirname(self.mirror_path(path))
         try:
-            file = job_queue.get(block=False)
-            process(file)
-        except Queue.Empty:
+            os.makedirs(dest_dir)
+        except OSError:
             pass
     
-    def watch(self, process):
-        print 'Watching {0}'.format(self.start_dir)
-        filestamps = {}
-        
-        job_queue = multiprocessing.Queue()
-        current_worker = None
-        try:
-            while True:
-                workers = []
-                for file_name in enum_files(self.start_dir, self.mask):
-                    try:
-                        mtime = os_stat(file_name).st_mtime
-                    except OSError:
-                        continue
-                    if file_name not in filestamps or mtime > filestamps[file_name]:
-                        filestamps[file_name] = mtime            
-                        job_queue.put(file_name)
-                        worker = multiprocessing.Process(target=DirectoryWatcher.__process_file,
-                                          args=(job_queue, process))
-                        workers.append(worker)
-                for worker in workers:
-                    current_worker = worker
-                    worker.start()
-                    worker.join()
-                current_worker = None
-                
-        except KeyboardInterrupt:
-            if current_worker:
-                print 'Received ctrl-c, waiting for running task to complete'
-                current_worker.join()
-                print '   ...done.'
-            else:
-                print 'Received ctrl-c, exiting'
+    def on_moved(self, event):
+        self.create_dir(event.dest_path)
+        if event.is_directory:
             return
+        self._wrap_handle_file(event.dest_path)
+
+    def on_created(self, event):
+        self.create_dir(event.src_path)
+        if event.is_directory:
+            return
+        self._wrap_handle_file(event.src_path)
+
+    def on_deleted(self, event):
+        try:
+            os.remove(self.mirror_path(event.src_path))
+        except OSError:
+            pass
+
+    def on_modified(self, event):
+        if event.is_directory:
+            return
+        self._wrap_handle_file(event.src_path)
+
