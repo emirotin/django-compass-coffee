@@ -1,15 +1,15 @@
 from directory_watcher import MirrorDirectoriesHandler
-from utils import copy_file
+from utils import copy_file, extensions_patterns
 
 class MirrorHandler(MirrorDirectoriesHandler):
     def __init__(self, source_dir, dest_dir, extensions=None):
         if extensions is not None:
-            extensions = ['*.{0}'.format(x) for x in extensions.split('|')]
+            extensions = extensions_patterns(extensions)
         super(MirrorHandler, self).__init__(source_dir, dest_dir, patterns=extensions)
 
     def handle_file(self, source_path, dest_path):
         copy_file(source_path, dest_path)
-        print 'Copied {0} to {1}'.format(source_file, dest_file)        
+        print 'Copied {0} to {1}'.format(source_path, dest_path)        
 
  
 if __name__ == "__main__":

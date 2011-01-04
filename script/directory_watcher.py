@@ -102,12 +102,12 @@ class MirrorDirectoriesHandler(PatternOrDirHandler):
     
     def _delete_path(self, path, is_directory):
         path_to_delete = self._mirror_path(path, is_directory)
-        if exists(path_to_delete):
+        if not exists(path_to_delete):
             return
         try:
             (rmtree if is_directory else remove)(path_to_delete)
         except OSError as e:
-            print "Error deleting {0}: {1}".format(path, e)
+            print "Error deleting {0}: {1}".format(path_to_delete, e)
     
     def on_moved(self, event):
         is_directory = event.is_directory
