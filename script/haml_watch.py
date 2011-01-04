@@ -1,12 +1,12 @@
 from directory_watcher import MirrorDirectoriesHandler
-from utils import compile_haml, realpath
+from utils import compile_haml
 
 class HamlHandler(MirrorDirectoriesHandler):
     def __init__(self, source_dir, dest_dir):
-        super(HamlHandler, self).__init__(source_dir, dest_dir, ['*.haml'])
+        super(HamlHandler, self).__init__(source_dir, dest_dir, 'html', ['*.haml'])
 
     def handle_file(self, source_path, dest_path):
-        compile_haml(source_path, self.source_dir, self.dest_dir)
+        compile_haml(source_path, dest_path)
 
  
 if __name__ == "__main__":
@@ -18,7 +18,7 @@ if __name__ == "__main__":
     observer = Observer()
 
     def terminate(*args):
-        print 'HAML watcher is stopping...'
+        print '\nHAML watcher is stopping...'
         observer.stop()
         observer.join()
         exit(0)

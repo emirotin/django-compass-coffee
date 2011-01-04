@@ -24,21 +24,18 @@ def clear_folder(folder):
             except OSError:
                 pass
             
-def copy_file(file, source_dir, dest_dir):
-    dest_file = pjoin(dest_dir, relpath(file, source_dir))
+def copy_file(source_file, dest_file):
     dest_dir = dirname(dest_file)
     try:
         os.makedirs(dest_dir)
     except OSError:
         pass
-    copyfile(file, dest_file)        
-    return dest_file
+    copyfile(source_file, dest_file)        
 
 def extensions_re(exts):
     return re.compile('|'.join('.*\.' + s + '$' for s in exts.split('|')))
 
-def compile_coffee(source_file, source_dir, dest_dir):
-    dest_file = pjoin(dest_dir, relpath(source_file, source_dir))
+def compile_coffee(source_file, dest_file):
     dest_file = dirname(dest_file)
     try:
         os.makedirs(dest_file)
@@ -49,9 +46,7 @@ def compile_coffee(source_file, source_dir, dest_dir):
     print '   ...done. Return code: {0}'.format(retcode)
     return retcode
 
-def compile_haml(source_file, source_dir, dest_dir):
-    dest_file = pjoin(dest_dir, relpath(source_file, source_dir))
-    dest_file = splitext(dest_file)[0] + '.html'
+def compile_haml(source_file, dest_file):
     dest_dir = dirname(dest_file)
     try:
         os.makedirs(dest_dir)
