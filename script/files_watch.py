@@ -24,7 +24,7 @@ if __name__ == "__main__":
         print '\nDirectory watcher is stopping...'
         observer.stop()
         observer.join()
-        exit(0)
+        sys.exit(0)
     signal.signal(signal.SIGINT, terminate)
     
     if len(sys.argv) < 3:

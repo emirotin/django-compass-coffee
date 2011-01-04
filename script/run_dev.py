@@ -13,21 +13,16 @@ commands = [
     ("python manage.py runserver", "../src/django_compass_coffee") # run django server
 ]
 
-from subprocess import STDOUT, Popen
+from subprocess import STDOUT, Popen, call
+import psutil
 import shlex
 import signal
 import sys
 import types
 import time
-from utils import clear_folder
 
-for folder in [
-   '../src/django_compass_coffee/site_media/js',
-   '../src/django_compass_coffee/site_media/css',
-   '../src/django_compass_coffee/site_media/img',
-   '../src/django_compass_coffee/templates'
-]:
-    clear_folder(folder)
+print "Initially building assets"
+call(shlex.split("python build_assets.py"), stderr=STDOUT)
 
 processes = []
 for c in commands:

@@ -2,7 +2,7 @@ import os
 import shutil
 import re
 from subprocess import call, STDOUT
-from directory_watcher import enum_files
+from directory_watcher import enum_files, mirror_path
 
 pjoin = os.path.join
 splitext = os.path.splitext
@@ -32,8 +32,8 @@ def copy_file(source_file, dest_file):
         pass
     copyfile(source_file, dest_file)        
 
-def extensions_re(exts):
-    return re.compile('|'.join('.*\.' + s + '$' for s in exts.split('|')))
+def extensions_patterns(exts):
+    return ['*.' + s for s in exts.split('|')]
 
 def compile_coffee(source_file, dest_file):
     dest_file = dirname(dest_file)

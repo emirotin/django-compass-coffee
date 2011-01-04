@@ -12,14 +12,25 @@ dirname = os.path.dirname
 remove = os.remove
 makedirs = os.makedirs
 exists = os.path.exists
+os_walk = os.walk
 
-def enum_files(start_dir, mask=None):
-    test = (lambda x : True) if mask is None else mask.match
+def enum_files(start_dir, patterns=None, ignore_patterns=None, case_sensitive=False):
+    test = (lambda x : True) if patterns is None else (lambda x: match_path(x, 
+                                                                        included_patterns=patterns,
+                                                                        excluded_patterns=ignore_patterns,
+                                                                        case_sensitive=case_sensitive)
+    )
     for (path, dirs, files) in os_walk(start_dir):
         for file in files:
             if not test(file):
                 continue
             yield pjoin(path, file)
+
+def mirror_path(path, source_dir, dest_dir, change_ext=None, is_directory=False):
+    dest_path = pjoin(dest_dir, relpath(path, source_dir)) 
+    if not is_directory and change_ext is not None:
+        dest_path = '{0}.{1}'.format(splitext(dest_path)[0], change_ext)
+    return dest_path
 
 
 class PatternOrDirHandler(PatternMatchingEventHandler):
@@ -75,10 +86,7 @@ class MirrorDirectoriesHandler(PatternOrDirHandler):
         self.handle_file(path, dest_path)
     
     def _mirror_path(self, path, is_directory):
-        dest_path = pjoin(self.dest_dir, relpath(path, self.source_dir)) 
-        if not is_directory and self.change_ext is not None:
-            dest_path = '{0}.{1}'.format(splitext(dest_path)[0], self.change_ext)
-        return dest_path
+        return mirror_path(path, self.source_dir, self.dest_dir, self.change_ext, is_directory)
     
     def _create_dir(self, path, is_directory=False):
         dest_dir = self._mirror_path(path, is_directory)
@@ -88,8 +96,9 @@ class MirrorDirectoriesHandler(PatternOrDirHandler):
             return
         try:
             makedirs(dest_dir)
-        except OSError as e:
-            print "Error creating {0}: {1}".format(dest_dir, e)
+        except OSError:
+            pass
+            #print "Error creating {0}: {1}".format(dest_dir, e)
     
     def _delete_path(self, path, is_directory):
         path_to_delete = self._mirror_path(path, is_directory)

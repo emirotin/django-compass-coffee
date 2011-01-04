@@ -21,7 +21,7 @@ if __name__ == "__main__":
         print '\nHAML watcher is stopping...'
         observer.stop()
         observer.join()
-        exit(0)
+        sys.exit(0)
     signal.signal(signal.SIGINT, terminate)
     
     event_handler = HamlHandler(sys.argv[1], sys.argv[2])
