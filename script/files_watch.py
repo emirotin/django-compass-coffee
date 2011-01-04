@@ -40,7 +40,7 @@ if __name__ == "__main__":
     else:
         exts = None
 
-    event_handler = HamlHandler(sys.argv[1], sys.argv[2], exts)
+    event_handler = MirrorHandler(sys.argv[1], sys.argv[2], exts)
     observer.schedule(event_handler, sys.argv[1], recursive=True)
     observer.start()
     print 'Directory watcher is running'
